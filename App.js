@@ -1,21 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { color } from "react-native-reanimated";
+import { Router, Scene } from 'react-native-router-flux'
+import Chat from "./screens/Chat";
+import Home from "./screens/Home";
+import ChatsExistentes from "./screens/ChatsExistentes"
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Router>
+      <Scene key="root">
+        <Scene key="home"  component={Home} navTransparent={1} />
+        <Scene key="menssagens" component={ChatsExistentes} title="IFChat"  onBack={()=>{null}} back={true}  />
+        <Scene key="chat"  title="Chat" component={Chat}  />
+      </Scene>
+    </Router>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
