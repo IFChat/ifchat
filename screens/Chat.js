@@ -12,7 +12,7 @@ const Chat = props => {
         name: "Gabriel",
         avatar: "url",
     };
-//Teste 3
+
     const messagens = [
     {
         _id: 1,
