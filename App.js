@@ -6,12 +6,13 @@ import Home from "./screens/Home";
 import ChatsExistentes from "./screens/ChatsExistentes"
 
 
+
 export default function App() {
   return (
     <Router>
       <Scene key="root">
-        <Scene key="home"  component={Home} navTransparent={1} />
-        <Scene key="menssagens" component={ChatsExistentes} title="IFChat"  onBack={()=>{null}} back={true}  />
+        <Scene key="home"  component={Home} navTransparent={1} initial/>
+        <Scene key="menssagens"  component={ChatsExistentes} hideNavBar />
         <Scene key="chat"  title="Chat" component={Chat}  />
       </Scene>
     </Router>

@@ -5,11 +5,14 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-    Image
+    Image,
+    BackHandler
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 
 const Home = (props) => {
+
+    
     
     function ChamaTelaChat() {
         Actions.menssagens();
@@ -39,7 +42,8 @@ const Home = (props) => {
                 </View>
                 
                 <View style={styles.vInput}>
-                    <TextInput secureTextEntry={true} placeholder='Digite sua senha institucional' autocorrect={false} onChangeText={()=> {}} style={styles.Input} />
+                    <TextInput secureTextEntry={true} placeholder='Digite sua senha institucional' 
+                    autoCorrect={false} onChangeText={()=> {}} style={styles.Input} />
                 </View>
 
                 <View style={styles.vText}>
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     },
     vInput:{
 
-        alignItems: 'center',
+      alignItems: 'center',
     },
     Text:{
         marginTop: 10,
@@ -96,6 +100,7 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         padding: 5,
         backgroundColor: '#fff',
+        fontFamily: 'Arial',
         width: 370,
         padding: 10,
     }, 

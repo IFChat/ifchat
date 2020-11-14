@@ -9,7 +9,7 @@ const Chat = props => {
     
     const usuario ={
         _id: 1,
-        name: "Gabriel",
+        name: "Erick",
         avatar: "url",
     };
 
