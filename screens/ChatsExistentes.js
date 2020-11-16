@@ -6,17 +6,18 @@ import{
     TextInput,
     StyleSheet
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 const ChatsExistentes = props => {
+
+    function ChamaTelaChat(){
+        Actions.chat();
+    }
+
 
     return(
            
         <View style={styles.container}>
-            <View style={styles.Header}> 
-
-            </View>
-
-
 
         </View>
 
@@ -29,14 +30,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
     },
-    Header:{
-        backgroundColor: '#8dc641',
-        position: 'relative',
-        marginBottom: 10,
-
-
-        
-    }
+    
 });
 
 
