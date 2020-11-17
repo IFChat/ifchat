@@ -47,7 +47,9 @@ const Home = (props) => {
                 </View>
 
                 <View style={styles.vText}>
-                    <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
@@ -100,7 +102,6 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         padding: 5,
         backgroundColor: '#fff',
-        fontFamily: 'Arial',
         width: 370,
         padding: 10,
     }, 
