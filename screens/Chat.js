@@ -7,11 +7,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 
 const Chat = props => {
     
-    const usuario ={
-        _id: 1,
-        name: "Erick",
-        avatar: "url",
-    };
+    const {user} = props.navigation.state.params;
 
     const messagens = [
     {
@@ -36,13 +32,13 @@ const Chat = props => {
     },
 ];
 
-    function onSendMessage(){
+    function onSendMessage(messagens){
         console.log(messagens);
     }
 
 
     return(
-        <GiftedChat user={usuario}  messages={messagens} onSend={onSendMessage} />
+        <GiftedChat user={user}  messages={messagens} onSend={onSendMessage} />
     );
 };
 

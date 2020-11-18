@@ -12,8 +12,10 @@ import { Actions } from 'react-native-router-flux';
 
 const ChatsExistentes = props => {
 
+    const {user} = props.navigation.state.params;
+
     function ChamaChat(){
-        Actions.chat();
+        Actions.chat( {user} );
     }
 
 

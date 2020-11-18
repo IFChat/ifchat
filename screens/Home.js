@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -9,56 +9,71 @@ import {
     BackHandler
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
+import api from '../API'
 
 const Home = (props) => {
 
+    const[name, setName] = useState("");
     
-    
-    function ChamaTelaChat() {
-        Actions.menssagens();
+    async function ChamaTelaChat() {
+        // buscar usuário pelo nome no banco
+        const user = await api.findUserByName(name);
+        // caso este usuário não exista, criar
+        if (user == null){
+            const newUser = {
+                _id: new Date().getTime(),
+                name: name,
+                avatar: 'https://placeimg.com/140/140/people',
+            }
+            await api.createUser(newUser);
+            Actions.menssagens({ user: newUser });
+        }
+        else{
+            Actions.menssagens({ user });
+        }
     }
 
-    return(
+return(
 
-        <View style={styles.container}>
+    <View style={styles.container}>
 
-            <View style={styles.containerlogo}>
-                <Image 
-                source={require('../assets/icon1.png')}
-                />
+        <View style={styles.containerlogo}>
+            <Image 
+            source={require('../assets/icon1.png')}
+            />
+        </View>
+
+        <View>
+            <View style={styles.vText}>
+                <Text style={styles.Text}>Email</Text>
+            </View>
+            
+            <View style={styles.vInput}>
+                <TextInput placeholder='Digite seu email institucional' autocorrect={false} value={name} onChangeText={setName} style={styles.Input} />
+            </View>
+            
+            <View style={styles.vText}>
+                <Text style={styles.Text}>Senha</Text>
+            </View>
+            
+            <View style={styles.vInput}>
+                <TextInput secureTextEntry={true} placeholder='Digite sua senha institucional' 
+                autoCorrect={false} onChangeText={()=> {}} style={styles.Input} />
             </View>
 
-            <View>
-                <View style={styles.vText}>
-                    <Text style={styles.Text}>Email</Text>
-                </View>
-                
-                <View style={styles.vInput}>
-                    <TextInput placeholder='Digite seu email institucional' autocorrect={false} onChangeText={()=> {}} style={styles.Input} />
-                </View>
-                
-                <View style={styles.vText}>
-                    <Text style={styles.Text}>Senha</Text>
-                </View>
-                
-                <View style={styles.vInput}>
-                    <TextInput secureTextEntry={true} placeholder='Digite sua senha institucional' 
-                    autoCorrect={false} onChangeText={()=> {}} style={styles.Input} />
-                </View>
-
-                <View style={styles.vText}>
-                    <TouchableOpacity>
-                        <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
-                        <Text style={styles.Button}>Entrar</Text>
+            <View style={styles.vText}>
+                <TouchableOpacity>
+                    <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
                 </TouchableOpacity>
             </View>
 
-
+            <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
+                    <Text style={styles.Button}>Entrar</Text>
+            </TouchableOpacity>
         </View>
+
+
+    </View>
     );
 };
 
