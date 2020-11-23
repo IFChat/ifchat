@@ -23,6 +23,10 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#8dc641"
+      },	
       "package": "com.ifchat.ifchatapplication"
     }
   }
