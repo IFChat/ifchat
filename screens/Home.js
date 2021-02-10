@@ -20,24 +20,23 @@ const Home = (props) => {
 
         var n = email.indexOf('@');
         var dominio = email.substring(email.length, n+1);
-        
-        if ((dominio != 'aluno.ifsc.edu.br') || (dominio != 'ifsc.edu.br')){
+        console.log(dominio);
+        if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
+            const Login = await api.loginUser(email, password);//Tentando fazer login
+            console.log(Login);
+            if (Login == null){
+                const user = await api.createUser(email, password);//Caso login não exista faz a criação do usuário.
+                Actions.usuario({ user });
+            }else{
+                Actions.usuario({ Login });
+            }
+            
+            
+        }else{
             alert('Email com domínio não autorizado!'); 
             //Informando que o domínio utilizado não é válido
         }
-        else{
-        const Login = await api.loginUser(email, password);//Tentando fazer login
-        if (Login == null){
-            await api.createUser(email, password);//Caso login não exista faz a criação do usuário.
-        }
-
-
-        }
-        
-       
-       
-
-        
+      
         
         
         
