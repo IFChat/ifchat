@@ -23,14 +23,20 @@ const Home = (props) => {
         
         if ((dominio != 'aluno.ifsc.edu.br') || (dominio != 'ifsc.edu.br')){
             alert('Email com domínio não autorizado!'); 
+            //Informando que o domínio utilizado não é válido
         }
-       
-       
-       
-       /* const Login = await api.loginUser(email, password);
+        else{
+        const Login = await api.loginUser(email, password);//Tentando fazer login
         if (Login == null){
-            await api.createUser(email, password);
-        }*/
+            await api.createUser(email, password);//Caso login não exista faz a criação do usuário.
+        }
+
+
+        }
+        
+       
+       
+
         
         
         
