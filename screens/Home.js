@@ -9,48 +9,28 @@ import {
     BackHandler
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
-import api from '../API';
+import api from '../API'
 
 const Home = (props) => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const[name, setName] = useState("");
     
     async function ChamaTelaChat() {
-
-        var n = email.indexOf('@');
-        var dominio = email.substring(email.length, n+1);
-        
-        if ((dominio != 'aluno.ifsc.edu.br') || (dominio != 'ifsc.edu.br')){
-            alert('Email com domínio não autorizado!'); 
-        }
-       
-       
-       
-       /* const Login = await api.loginUser(email, password);
-        if (Login == null){
-            await api.createUser(email, password);
-        }*/
-        
-        
-        
-        
-        
         // buscar usuário pelo nome no banco
-      //  const user = await api.findUserByName(name);
+        const user = await api.findUserByName(name);
         // caso este usuário não exista, criar
-       // if (user == null){
-          //  const newUser = {
-           //     _id: new Date().getTime(),
-           //     name: name,
-          //      avatar: 'https://placeimg.com/140/140/people',
-          //  }
-          //  await api.createUser(newUser);
-           // Actions.menssagens({ user: newUser });
-       // }
-       // else{
-        //    Actions.menssagens({ user });
-      //  }
+        if (user == null){
+            const newUser = {
+                _id: new Date().getTime(),
+                name: name,
+                avatar: 'https://placeimg.com/140/140/people',
+            }
+            await api.createUser(newUser);
+            Actions.menssagens({ user: newUser });
+        }
+        else{
+            Actions.menssagens({ user });
+        }
     }
 
 return(
@@ -69,7 +49,7 @@ return(
             </View>
             
             <View style={styles.vInput}>
-                <TextInput id='email' placeholder='Digite seu email institucional' autocorrect={false} value={email} onChangeText={setEmail} style={styles.Input} />
+                <TextInput placeholder='Digite seu email institucional' autocorrect={false} value={name} onChangeText={setName} style={styles.Input} />
             </View>
             
             <View style={styles.vText}>
@@ -77,8 +57,8 @@ return(
             </View>
             
             <View style={styles.vInput}>
-                <TextInput id='password' secureTextEntry={true} placeholder='Digite sua senha institucional' 
-                autoCorrect={false} value={password} onChangeText={setPassword} style={styles.Input} />
+                <TextInput secureTextEntry={true} placeholder='Digite sua senha institucional' 
+                autoCorrect={false} onChangeText={()=> {}} style={styles.Input} />
             </View>
 
             <View style={styles.vText}>
