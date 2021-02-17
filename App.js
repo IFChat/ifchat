@@ -5,7 +5,6 @@ import Chat from "./screens/Chat";
 import Home from "./screens/Home";
 import ChatsExistentes from "./screens/ChatsExistentes";
 import Pesquisa from "./screens/Pesquisa";
-import Load from "./screens/Load";
 import Usuario from "./screens/Usuario";
 import 
 {ToastAndroid,
@@ -25,15 +24,10 @@ export default function App() {
               component={Home}
               navTransparent={1}
               initial />
-              <Scene key="load" 
-              component={Load}
-              navTransparent={1} />
 
         <Scene key="usuario"
-              title="Usuário"
               component={Usuario}
-              navigationBarStyle={{backgroundColor: '#8dc641'}}
-              onLeft={() => {null}}
+              hideNavBar={true}
               />
        
        <Scene key="menssagens"  

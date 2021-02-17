@@ -9,32 +9,28 @@ const api = {
         })
     },
     
-    currentUser: function(user){
-        firebase.auth().currentUser;
+    currentUser: async function(user){
+        return(firebase.auth().currentUser);
     },
 
+    authstate: async function(user){
+       return (firebase.auth().onAuthStateChanged);
+    },
 
-    loginUser: function (email, password){
+    loginUser: async function (email, password){
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(user){
                     console.log('Autenticado com sucesso singin!');
                 })
     },
 
-    createUser: function (email, password){
+    createUser: async function (email, password){
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(function(user){
-            firebase.auth().signInWithEmailAndPassword(email, password)
-            .catch(function(error) {
-                console.log(error.code);
-                console.log(error.message);
-                console.log('Erro de Autenticação!');
-            });
-        })
         .catch(function(error){
-            console.log(error.code);
-            console.log(error.message);
-            console.log('Erro na Criação de conta!');
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function(user){
+                console.log('Autenticado de fora do create');
+            })
         })
     }
 
@@ -50,8 +46,6 @@ const api = {
         .orderByChild('name')
         .equalTo(name)
         .once('value')
-
-
     if (user.exists()){
         return Object.values(user.val()[0])
     }

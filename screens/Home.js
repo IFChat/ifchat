@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
+import firebase from '../database';
 
 const Home = (props) => {
 
@@ -20,28 +21,28 @@ const Home = (props) => {
 
         var n = email.indexOf('@');
         var dominio = email.substring(email.length, n+1);
-        console.log(dominio);
+
         if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
-            const Login = await api.loginUser(email, password);//Tentando fazer login
-            console.log(Login);
-            if (Login == null){
-                const user = await api.createUser(email, password);//Caso login não exista faz a criação do usuário.
-                Actions.usuario({ user });
-            }else{
-                Actions.usuario({ Login });
-            }
-            
-            
+            await api.createUser(email, password);  
+            await firebase.auth().onAuthStateChanged(function(user){
+                if(user){
+                    console.log('User connected');
+                    
+                    const currUser = firebase.auth().currentUser;
+                    const newUser = {
+                        _id: currUser.uid,
+                        email: currUser.email,
+                    }
+                    Actions.usuario({newUser});
+                    console.log(newUser);
+                }
+            })
         }else{
             alert('Email com domínio não autorizado!'); 
             //Informando que o domínio utilizado não é válido
         }
       
-        
-        
-        
-        
-        // buscar usuário pelo nome no banco
+// buscar usuário pelo nome no banco
       //  const user = await api.findUserByName(name);
         // caso este usuário não exista, criar
        // if (user == null){
@@ -57,6 +58,7 @@ const Home = (props) => {
         //    Actions.menssagens({ user });
       //  }
     }
+
 
 return(
 
@@ -159,3 +161,4 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     }
 });
+
