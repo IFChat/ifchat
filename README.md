@@ -1,8 +1,9 @@
-## IFCHAT  Application
+# IFCHAT  Application
 
 ## Integrantes do Grupo
 - [Gabriel Bobello](https://github.com/GBobello)
 - [Erick Lemos](https://github.com/ErickCardozo)
 
-### Orientador
+## Orientador
 - [Romulo Beninca](https://github.com/rbeninca)
+____________________________________________________________________________________
