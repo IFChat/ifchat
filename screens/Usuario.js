@@ -6,7 +6,8 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
-    BackHandler
+    BackHandler,
+    Picker
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
@@ -14,9 +15,23 @@ import api from '../API';
 const Usuario = (props) => {
     
     const user = props.navigation.state.params.newUser;
-
-    function Teste(){
-        console.log(user);
+    const [selectedValue, setSelectedValue] = useState("https://imgur.com/nPoMImB");
+    const [name, setName] = useState("");
+    async function Teste(){
+        const extUser = {
+            _id: user._id,
+            name: name,
+            avatar: selectedValue,
+            email: user.email,
+           // senha: user.senha,
+        }
+        const currUserExists = await api.findUserByUId(extUser._id);
+        if(currUserExists == null){
+           await api.createUserinDatabase(extUser);
+        }
+        else{
+            //
+        }
     }
 return(
 
@@ -34,8 +49,15 @@ return(
             </View>
             
             <View style={styles.vInput}>
-                <TextInput id='nome' placeholder='Digite seu nome' autocorrect={false} /*value={email} onChangeText={setEmail}*/ style={styles.Input} />
+                <TextInput id='nome' placeholder='Digite seu nome' autocorrect={true} value={name} onChangeText={setName} style={styles.Input} />
             </View>
+
+            <Picker selectedValue={selectedValue} style={styles.Picker} onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
+                <Picker.Item label="Aluno" value='https://imgur.com/nPoMImB' />  
+                <Picker.Item label="Representante de Turma" value='https://imgur.com/HLYtylt' />
+                <Picker.Item label="Professor" value='https://imgur.com/MVDZfIg' />
+                <Picker.Item label="Coordenador de Curso" value='https://imgur.com/sdE9a6W' />
+            </Picker>
 
             <TouchableOpacity onPress={Teste} style={styles.btnSubmit}>
                     <Text style={styles.Button}>Continuar</Text>
@@ -101,7 +123,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 50,
         borderRadius: 10,
-    }
+    },
 });
 
 

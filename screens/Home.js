@@ -27,14 +27,17 @@ const Home = (props) => {
             await firebase.auth().onAuthStateChanged(function(user){
                 if(user){
                     console.log('User connected');
+                    console.log('Autenticado com sucesso!');
+
                     
                     const currUser = firebase.auth().currentUser;
                     const newUser = {
                         _id: currUser.uid,
                         email: currUser.email,
+                       // senha: password,
                     }
-                    Actions.usuario({newUser});
                     console.log(newUser);
+                    Actions.usuario({newUser});
                 }
             })
         }else{
