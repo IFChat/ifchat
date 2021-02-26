@@ -10,10 +10,10 @@ const api = {
             .equalTo(id)
             .once('value')
         if (user.exists()){
-            return Object.values(user.val()[0])
-            console.log('Já existe');
+            return Object.values(user.val())[0];
         }
         return null;
+
     },
 
     createUserinDatabase: async function(user){
@@ -45,6 +45,20 @@ const api = {
             })
         })
     },
+
+    onAuthStateChanged: async function(AuthState){
+        const user = firebase.auth().onAuthStateChanged;
+        console.log(user);
+            if(user){
+                const currUser = firebase.auth().currentUser; //Recebendo usuário atual
+                const newUser = {
+                    _id: currUser.uid,
+                    email: currUser.email,
+                   // senha: password, *Removido por conta da regra de 'negócio'*
+                }    
+                return(newUser);
+            }
+    }
 
     
 

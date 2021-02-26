@@ -7,17 +7,18 @@ import {
     TouchableOpacity,
     Image,
     BackHandler,
-    Picker
+    Picker,
+    LogBox
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
 
 const Usuario = (props) => {
-    
-    const user = props.navigation.state.params.newUser;
+    LogBox.ignoreAllLogs();
+    const user = props.navigation.state.params.user;
     const [selectedValue, setSelectedValue] = useState("https://imgur.com/nPoMImB");
     const [name, setName] = useState("");
-    async function Teste(){
+    async function DatabaseRealtime(){
         const extUser = {
             _id: user._id,
             name: name,
@@ -27,10 +28,11 @@ const Usuario = (props) => {
         }
         const currUserExists = await api.findUserByUId(extUser._id);
         if(currUserExists == null){
-           await api.createUserinDatabase(extUser);
+           await api.createUserinDatabase(extUser); 
+           Actions.ChatsExistentes({user:extUser});
         }
         else{
-            //
+            alert('Seu usuário não foi criado!');
         }
     }
 return(
@@ -59,7 +61,7 @@ return(
                 <Picker.Item label="Coordenador de Curso" value='https://imgur.com/sdE9a6W' />
             </Picker>
 
-            <TouchableOpacity onPress={Teste} style={styles.btnSubmit}>
+            <TouchableOpacity onPress={DatabaseRealtime} style={styles.btnSubmit}>
                     <Text style={styles.Button}>Continuar</Text>
             </TouchableOpacity>
         </View>

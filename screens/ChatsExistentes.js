@@ -25,26 +25,26 @@ const ChatsExistentes = props => {
 
             <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
                 <View style={styles.foto}>
-                    <Image source={require('../img/megui.jpg')} style={styles.fotinho} />
+                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
                 </View>  
 
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
                 <View style={styles.foto}>
-                    <Image source={require('../img/alex.jpg')} style={styles.fotinho} />
+                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
                 </View>  
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
                 <View style={styles.foto}>
-                    <Image source={require('../img/ob.jpg')} style={styles.fotinho} />
+                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
                 </View>  
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
                 <View style={styles.foto}>
-                    <Image source={require('../img/lipe.jpg')} style={styles.fotinho} />
+                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
                 </View>  
             </TouchableOpacity>
            
@@ -56,7 +56,7 @@ const ChatsExistentes = props => {
             
             <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
                 <View style={styles.foto}>
-                    <Image source={require('../img/megui.jpg')} style={styles.fotinho}/>
+                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
                 </View>  
             </TouchableOpacity>
 

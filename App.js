@@ -6,6 +6,7 @@ import Home from "./screens/Home";
 import ChatsExistentes from "./screens/ChatsExistentes";
 import Pesquisa from "./screens/Pesquisa";
 import Usuario from "./screens/Usuario";
+import Loading from "./screens/Loading";
 import 
 {ToastAndroid,
   StyleSheet
@@ -20,17 +21,23 @@ export default function App() {
     <Router>
       <Scene key="root" >
         
-        <Scene key="home" 
+        <Scene key="Home" 
               component={Home}
               navTransparent={1}
               initial />
 
-        <Scene key="usuario"
+        <Scene key="Usuario"
               component={Usuario}
               hideNavBar={true}
               />
+
+        <Scene key="Loading"
+              title="Loading"
+              component={Loading}
+              hideNavBar={true}
+        />
        
-       <Scene key="menssagens"  
+       <Scene key="ChatsExistentes"  
               component={ChatsExistentes}
               title="IFChat - Application" 
               leftButtonImage={require('./assets/icon1.png')}
@@ -53,12 +60,12 @@ export default function App() {
               rightButtonImage={require('./img/lupa.png')}
               navigationBarStyle={{backgroundColor: '#8dc641'}} />
 
-        <Scene key="pesquisa"
+        <Scene key="Pesquisa"
               title="Pesquisa"
               component={Pesquisa}
         />
         
-        <Scene key="chat"
+        <Scene key="Chat"
               title="Chat"
               component={Chat}  />
       
