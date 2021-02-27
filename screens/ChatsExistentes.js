@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import{
     View,
     Text,
@@ -9,63 +9,68 @@ import{
     Image
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import api from '../API';
+import firebase from '../database';
 
-const ChatsExistentes = props => {
-
-    const {user} = props.navigation.state.params;
-
-    function ChamaChat(){
-        Actions.chat( {user} );
+class Teste extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+        };
     }
 
+    render() {
+        return (
+            <TouchableOpacity>
+                <Text>Gay</Text>
+            </TouchableOpacity>
+        )
+    }
+};
+export default class ChatsExistentes extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            countUsers: 0,
+        };
+    }
+
+   // ContadorDeUsuarios = async () => {
+   //     const teste = await api.contagemUsers;
+   //     console.log(teste);
+
+   // }
+
+    //componentDidMount(){
+     //   this.ContadorDeUsuarios();
+   // } Comentado por mim
+
+    render(){
+        return(
+            <View style={styles.container}>
+                <TouchableOpacity onPress={this.ContadorDeUsuarios}>
+                    <Text>Teste</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+}
+
+/*const ChatsExistentes = props => {
+
+    const {user} = props.navigation.state.params;
 
     return(
         
         <View style={styles.container}>
-
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-            </TouchableOpacity>
-           
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.convesas} onPress={ChamaChat}>
-                <View style={styles.foto}>
-                    <Image source={require('../img/zuluzao.png')} style={styles.fotinho} />
-                </View>  
-            </TouchableOpacity>
-
+                <TouchableOpacity /*onPress={this.ContadorDeUsuarios}>
+                    <Text>Teste</Text>
+                </TouchableOpacity>
         </View>
-
-
     );
 
-};
+};*/
 
 const styles = StyleSheet.create({
     container:{
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         height: 100,
         alignItems: 'flex-start',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     foto:{
         marginLeft:10,
@@ -103,4 +108,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ChatsExistentes;
+//export default ChatsExistentes;

@@ -58,12 +58,27 @@ const api = {
                 }    
                 return(newUser);
             }
-    }
+    },
+
+    contagemUsers: async function (callback) {
+        const user = await firebase
+        .database()
+        .ref("users")
+        .limitToLast(20)
+        .on("child_added", (snapshot) => {
+            callback(parse(snapshot));
+        });
+    },
 
     
 
 
 };
 
+const parse = (snapshot) => {
+    const {user} = snapshot.val();
+    const {key: _id} = snapshot;
+    return user;
+};
 
 export default api;
