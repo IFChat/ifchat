@@ -1,4 +1,6 @@
 import firebase from "./database"
+import RetornaUsers from "./json/RetornaUsers.json"
+
 
 const api = {
 
@@ -48,7 +50,6 @@ const api = {
 
     onAuthStateChanged: async function(AuthState){
         const user = firebase.auth().onAuthStateChanged;
-        console.log(user);
             if(user){
                 const currUser = firebase.auth().currentUser; //Recebendo usuário atual
                 const newUser = {
@@ -60,14 +61,17 @@ const api = {
             }
     },
 
-    contagemUsers: async function (callback) {
-        const user = await firebase
-        .database()
+    retornaUsers: function async (callback) {
+        const inf = firebase.database()
         .ref("users")
         .limitToLast(20)
-        .on("child_added", (snapshot) => {
-            callback(parse(snapshot));
+
+        inf.on("value", (snapshot) => {
+            const teste = snapshot.val() ;
         });
+
+        return(teste);
+
     },
 
     
@@ -75,10 +79,11 @@ const api = {
 
 };
 
-const parse = (snapshot) => {
-    const {user} = snapshot.val();
-    const {key: _id} = snapshot;
-    return user;
-};
+//const parse = (snapshot) => {
+  //  const {name, avatar} = snapshot.val();
+    //const {key: _id} = snapshot;
+    //const usersExist = {_id, name, avatar}
+    //return user;
+//};
 
 export default api;

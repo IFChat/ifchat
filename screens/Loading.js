@@ -30,7 +30,7 @@ export default class Loading extends Component {
         const user = this.state.user;
 
         let currUserExists = await api.findUserByUId(user._id);
-        console.log(currUserExists);
+        //console.log(currUserExists); Comentado por questões de segurança
 
         if (currUserExists == null){
             this.state={loading: false};

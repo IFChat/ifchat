@@ -11,6 +11,7 @@ import{
 import { Actions } from 'react-native-router-flux';
 import api from '../API';
 import firebase from '../database';
+import RetornaUsers from '../json/RetornaUsers.json'
 
 class Teste extends Component{
     constructor(props){
@@ -18,38 +19,47 @@ class Teste extends Component{
         this.state = {
         };
     }
-
-    render() {
-        return (
-            <TouchableOpacity>
-                <Text>Gay</Text>
-            </TouchableOpacity>
-        )
-    }
 };
 export default class ChatsExistentes extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            countUsers: 0,
+            publicadas: []
         };
     }
 
-   // ContadorDeUsuarios = async () => {
-   //     const teste = await api.contagemUsers;
-   //     console.log(teste);
+    ContadorDeUsuarios = async () => {
+       const publicadas = await firebase.database().ref("users").orderByChild("_id").limitToLast(20).on('value', (snapshot) => {
+            //this.setState({publicadas: [snapshot.val()]});
+            var teste = snapshot.val();
 
-   // }
+            var keys = Object.keys(teste);
+            console.log(keys);
 
-    //componentDidMount(){
-     //   this.ContadorDeUsuarios();
-   // } Comentado por mim
+            for(var i=0; i<keys.length; i++){
+                var key = keys[i];
+                RetornaUsers.user.id = teste[key]._id;
+                var val = teste[key];   
+                console.log(RetornaUsers.user.id);
+            }
+
+
+        })
+    }
+
+    componentDidMount(){
+        this.ContadorDeUsuarios();
+    }
 
     render(){
+
+        const publicadas = this.state.publicadas;
+        console.log(publicadas[1]);
+
         return(
             <View style={styles.container}>
-                <TouchableOpacity onPress={this.ContadorDeUsuarios}>
+                <TouchableOpacity style={styles.convesas} onPress={this.ContadorDeUsuarios}>
                     <Text>Teste</Text>
                 </TouchableOpacity>
             </View>
