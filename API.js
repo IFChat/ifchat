@@ -45,6 +45,10 @@ const api = {
             firebase.auth().signInWithEmailAndPassword(email, password)
             .then(function(user){
             })
+            .catch(function (error) {
+                var error = error.code;
+                return Object.values(error.val);
+            })
         })
     },
 
@@ -61,17 +65,10 @@ const api = {
             }
     },
 
-    retornaUsers: function async (callback) {
-        const inf = firebase.database()
-        .ref("users")
-        .limitToLast(20)
-
-        inf.on("value", (snapshot) => {
-            const teste = snapshot.val() ;
-        });
-
-        return(teste);
-
+    retornaUsers: async () => {   
+        await firebase.database().ref("users").orderByChild("_id").limitToLast(20).on('value', (snapshot) => {
+            return(snapshot.val());
+        })
     },
 
     

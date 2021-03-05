@@ -14,138 +14,6 @@ import { Actions } from 'react-native-router-flux';
 import api from '../API';
 import firebase from '../database';
 
-/*export default class Home extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            loading: true,
-            user : false,
-        }
-    }
-
-    VerificaUserConnected = async () => {
-        await firebase.auth().onAuthStateChanged(async function (user) {
-            if (user) {
-                this.state={user: true};
-            }
-        })
-    }
-
-    componentDidMount(){
-        this.VerificaUserConnected();
-    }
-
-    render(){
-        if(this.state.user){
-            const currentUser = firebase.auth().currentUser;
-            newUser = {
-                _id: currentUser.uid,
-                email: currentUser.email,
-            };
-            this.state={loading: false};
-            if(newUser != null){
-                Actions.Loading({newUser});
-            }
-            return(
-                <View style={styles.container}>
-                    <ActivityIndicator 
-                    animating={this.state.loading}
-                    size="large" 
-                    color="#d3d3d3"/>
-                    <Text style={styles.Text}>Aguarde carregando informações...</Text>
-                </View>
-            );
-        }
-
-        else{
-            const email = this.state.email;
-            const password = this.state.password;
-
-            async function ChamaTelaChat() {
-                LogBox.ignoreAllLogs();
-
-                console.log(email);
-                console.log(password);
-
-                var newUser = {};
-                var n = email.indexOf('@');
-                var dominio = email.substring(email.length, n+1);
-
-                if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br'))/*Verificando se o domínio está correto{
-                    await api.createUser(email, password);  //Criando usuário no Authentication
-
-                    await firebase.auth().onAuthStateChanged(async function(user){ // Recebendo usuário conectado
-                        if(user){
-                            console.log('User connected');
-                            console.log('Autenticado com sucesso!');
-
-                        
-                            const currUser = firebase.auth().currentUser; //Recebendo usuário atual
-                            newUser = {
-                                _id: currUser.uid,
-                                email: currUser.email,
-                            // senha: password, *Removido por conta da regra de 'negócio'*
-                            }   
-
-                            if (newUser != null){
-                                Actions.Loading({newUser});
-                            }
-                                            
-                        }
-                    
-                    })
-                    
-                }else{
-                    alert('Email com domínio não autorizado!'); 
-                    //Informando que o domínio utilizado não é válido
-                }
-            };
-
-          return(
-            <View style={styles.container}>
-
-            <View style={styles.containerlogo}>
-                <Image 
-                source={require('../assets/icon1.png')}
-                />
-            </View>
-
-            <View>
-                <View style={styles.vText}>
-                    <Text style={styles.Text}>Email</Text>
-                </View>
-                <View style={styles.vInput}>
-                    <TextInput id='email' placeholder='Digite seu email institucional' 
-                    autocorrect={false} value={this.setState.email} onChangeText={this.setState.email} style={styles.Input} />
-                </View>
-                <View style={styles.vText}>
-                    <Text style={styles.Text}>Senha</Text>
-                </View>
-                
-                <View style={styles.vInput}>
-                    <TextInput id='password' secureTextEntry={true} placeholder='Digite sua senha institucional' 
-                    autoCorrect={false} value={this.setState.senha} onChangeText={this.setState.senha} style={styles.Input} />
-                </View>
-
-                <View style={styles.vText}>
-                    <TouchableOpacity>
-                        <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
-                        <Text style={styles.Button}>Entrar</Text>
-                </TouchableOpacity>
-            </View>
-
-
-            </View>
-          );   
-        };
-    };
-
-};*/
-
 const Home = (props) => {
 
     LogBox.ignoreAllLogs();
@@ -158,20 +26,16 @@ const Home = (props) => {
         var n = email.indexOf('@');
         var dominio = email.substring(email.length, n+1);
 
-        if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){//Verificando se o domínio está correto
-            await api.createUser(email, password);  //Criando usuário no Authentication
-
-            await firebase.auth().onAuthStateChanged(async function(user){ // Recebendo usuário conectado
+        if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
+           var error = await api.createUser(email, password);  
+           console.log(error); 
+            await firebase.auth().onAuthStateChanged(async function(user){ 
                 if(user){
-                    console.log('User connected');
-                    console.log('Autenticado com sucesso!');
 
-                
-                    const currUser = firebase.auth().currentUser; //Recebendo usuário atual
+                    const currUser = firebase.auth().currentUser; 
                     newUser = {
                         _id: currUser.uid,
                         email: currUser.email,
-                       // senha: password, *Removido por conta da regra de 'negócio'*
                     }   
 
                     if (newUser != null){
@@ -212,12 +76,6 @@ return(
             <View style={styles.vInput}>
                 <TextInput id='password' secureTextEntry={true} placeholder='Digite sua senha institucional' 
                 autoCorrect={false} value={password} onChangeText={setPassword} style={styles.Input} />
-            </View>
-
-            <View style={styles.vText}>
-                <TouchableOpacity>
-                    <Text style={styles.Esquece}>Esqueceu sua senha?</Text>
-                </TouchableOpacity>
             </View>
 
             <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>

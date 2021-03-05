@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
+import firebase from '../database';
 
 export default class Loading extends Component {
 
@@ -28,17 +29,32 @@ export default class Loading extends Component {
     CarregaDadosUsuario = async () => {
         LogBox.ignoreAllLogs();
         const user = this.state.user;
+        var userEx;
 
         let currUserExists = await api.findUserByUId(user._id);
-        //console.log(currUserExists); Comentado por questões de segurança
+
+        var val = [];
+
+        await firebase.database().ref("users").on('value', async function (snapshot) {
+            userEx = snapshot.val();
+
+            var keys = Object.keys(userEx);
+        
+            for(var i=0; i<keys.length; i++){
+                var key = await keys[i];
+                val[i] = await userEx[key]
+            }
+        });    
 
         if (currUserExists == null){
             this.state={loading: false};
-            Actions.Usuario({user});
+            var userEx = await val; 
+            await Actions.Usuario({user, userEx: val});
         }
         else {
             this.state={loading: false};
-            Actions.ChatsExistentes({user:currUserExists});
+            var userEx = await val;
+            await Actions.ChatsExistentes({user:currUserExists, userEx: val});
         }   
     }
 
@@ -50,6 +66,7 @@ export default class Loading extends Component {
         if(this.state.loading){
             return(
                 <View style={styles.container}>
+                    <Image source={require('../assets/icon.png')} />
                     <ActivityIndicator 
                     animating={this.state.loading}
                     size="large" 

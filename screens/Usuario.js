@@ -16,7 +16,7 @@ import api from '../API';
 const Usuario = (props) => {
     LogBox.ignoreAllLogs();
     const user = props.navigation.state.params.user;
-    const [selectedValue, setSelectedValue] = useState("https://imgur.com/nPoMImB");
+    const [selectedValue, setSelectedValue] = useState("https://i.imgur.com/nPoMImB.png");
     const [name, setName] = useState("");
     async function DatabaseRealtime(){
         const extUser = {
@@ -55,10 +55,10 @@ return(
             </View>
 
             <Picker selectedValue={selectedValue} style={styles.Picker} onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
-                <Picker.Item label="Aluno" value='https://imgur.com/nPoMImB' />  
-                <Picker.Item label="Representante de Turma" value='https://imgur.com/HLYtylt' />
-                <Picker.Item label="Professor" value='https://imgur.com/MVDZfIg' />
-                <Picker.Item label="Coordenador de Curso" value='https://imgur.com/sdE9a6W' />
+                <Picker.Item label="Aluno" value='https://i.imgur.com/nPoMImB.png' />  
+                <Picker.Item label="Representante de Turma" value='https://i.imgur.com/HLYtylt.png' />
+                <Picker.Item label="Professor" value='https://i.imgur.com/MVDZfIg.png' />
+                <Picker.Item label="Coordenador de Curso" value='https://i.imgur.com/sdE9a6W.png' />
             </Picker>
 
             <TouchableOpacity onPress={DatabaseRealtime} style={styles.btnSubmit}>
