@@ -9,13 +9,12 @@ Para o desenvolvimento deste projeto estamos utilizando as bibliotecas a seguir:
 - [React Native Router Flux](https://github.com/aksonov/react-native-router-flux)
 - [React Native Gesture Handler](https://github.com/software-mansion/react-native-gesture-handler)
 - [React Native Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat)
+- [React Native Animatable](https://github.com/oblador/react-native-animatable)
 - [Firebase](https://firebase.google.com/?hl=pt-br)
 
 
 ### Integrantes do Grupo
 - [Gabriel Bobello](https://github.com/GBobello)
-- [Erick Lemos](https://github.com/ErickCardozo)
-<a href="https://github.com/IFChat/ifchat/graphs/contributors" />
 
 ### Orientador
 - [Romulo Beninca](https://github.com/rbeninca)
