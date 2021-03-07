@@ -13,6 +13,7 @@ import {
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
 import firebase from '../database';
+import * as Animatable from 'react-native-animatable';
 
 const Home = (props) => {
 
@@ -28,7 +29,6 @@ const Home = (props) => {
 
         if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
            var error = await api.createUser(email, password);  
-           console.log(error); 
             await firebase.auth().onAuthStateChanged(async function(user){ 
                 if(user){
 
@@ -56,31 +56,36 @@ return(
 
     <View style={styles.container}>
 
-        <View style={styles.containerlogo}>
+        <Animatable.View animation="fadeInDownBig" style={styles.containerlogo}>
             <Image 
             source={require('../assets/icon1.png')}
             />
-        </View>
+        </Animatable.View>
 
         <View>
-            <View style={styles.vText}>
+            <Animatable.View animation="fadeInUpBig" style={styles.vText}>
                 <Text style={styles.Text}>Email</Text>
-            </View>
-            <View style={styles.vInput}>
+            </Animatable.View>
+
+            <Animatable.View animation="fadeInUpBig"
+            style={styles.vInput}>
                 <TextInput id='email' placeholder='Digite seu email institucional' autocorrect={false} value={email} onChangeText={setEmail} style={styles.Input} />
-            </View>
-            <View style={styles.vText}>
+            </Animatable.View>
+
+            <Animatable.View animation="fadeInUpBig" style={styles.vText}>
                 <Text style={styles.Text}>Senha</Text>
-            </View>
+            </Animatable.View>
             
-            <View style={styles.vInput}>
+            <Animatable.View animation="fadeInUpBig" style={styles.vInput}>
                 <TextInput id='password' secureTextEntry={true} placeholder='Digite sua senha institucional' 
                 autoCorrect={false} value={password} onChangeText={setPassword} style={styles.Input} />
-            </View>
+            </Animatable.View>
 
-            <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
-                    <Text style={styles.Button}>Entrar</Text>
-            </TouchableOpacity>
+            <Animatable.View animation="fadeInUpBig">
+                <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
+                        <Text style={styles.Button}>Entrar</Text>
+                </TouchableOpacity>
+            </Animatable.View>
         </View>
 
 

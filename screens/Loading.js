@@ -66,7 +66,6 @@ export default class Loading extends Component {
         if(this.state.loading){
             return(
                 <View style={styles.container}>
-                    <Image source={require('../assets/icon.png')} />
                     <ActivityIndicator 
                     animating={this.state.loading}
                     size="large" 

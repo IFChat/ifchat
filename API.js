@@ -65,22 +65,28 @@ const api = {
             }
     },
 
-    retornaUsers: async () => {   
-        await firebase.database().ref("users").orderByChild("_id").limitToLast(20).on('value', (snapshot) => {
-            return(snapshot.val());
+    retornaUsers: function async (callback) {
+        firebase.database().ref("users").on("value", (snapshot) => {
+            callback(snapshot);
         })
-    },
+    },  
 
     
 
 
 };
 
-//const parse = (snapshot) => {
-  //  const {name, avatar} = snapshot.val();
-    //const {key: _id} = snapshot;
-    //const usersExist = {_id, name, avatar}
-    //return user;
-//};
+function callback(snapshot) {
+    var userEx = snapshot.val();
+
+    var keys = Object.keys(userEx);
+    var val = [];
+    for(var i=0; i<keys.length; i++){
+        var key = keys[i];
+        val[i] = userEx[key];
+    }
+    
+    return(val);
+};
 
 export default api;

@@ -40,18 +40,13 @@ export default function App() {
        <Scene key="ChatsExistentes"  
               component={ChatsExistentes}
               title="IFChat - Application" 
-              leftButtonImage={require('./assets/icon1.png')}
               titleStyle={{
-                color: "#FFF",
-                marginLeft: -40,            
+                color: "#FFF",         
               }}
-              onRight={() => Actions.pesquisa ()} 
-             // renderRightButton={Lupa}
+              onRight={() => Actions.pesquisa()} 
               onBack={()=>{null}} 
               onLeft={() => {null}}
-              back={true}
-              init={true}
-              hideBackImage={true}
+              hideBackImage={false}
               backToInitial={false}
               rightButtonStyle={{
                 heigth: 10,

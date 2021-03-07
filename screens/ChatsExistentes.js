@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import{
     View,
     Text,
@@ -7,12 +7,15 @@ import{
     StyleSheet,
     Button,
     Image,
-    FlatList
+    FlatList,
+    Animated,
+    ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import api from '../API';
 import firebase from '../database';
 import RetornaUsers from '../json/RetornaUsers.json';
+import * as Animatable from 'react-native-animatable';
 export default class ChatsExistentes extends Component {
     
     constructor(props){
@@ -20,31 +23,69 @@ export default class ChatsExistentes extends Component {
         this.state = {
             user: props.navigation.state.params.user,
             userEx: props.navigation.state.params.userEx,
+            loading: true,
         };
     }
 
-    render(){
+    CarregaUsers =  () => {
 
-        return(
-            <View style={styles.container}>
-                <FlatList 
-                    data={this.state.userEx}   
-                    renderItem={({item}) => 
-                        <TouchableOpacity style={styles.convesas} onPress={() => { console.log( item._id)}}>
-                            <View style={styles.foto}>
-                                <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
-                            </View>
-                            <View style={styles.name}>
-                                <Text style={styles.text}>
-                                    {item.name}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    } 
-                    keyExtractor={item => item._id}
-                />
-            </View>
-        );
+        firebase.database().ref("users").on('value', (snapshot) => {
+            var userEx = snapshot.val();
+
+            var keys = Object.keys(userEx);
+            
+            for(var i=0; i<keys.length; i++){
+                var key = keys[i];
+                RetornaUsers.users[i] = userEx[key];
+            }
+
+        })
+
+        setTimeout(() => {
+            this.setState ({loading: false});
+        }, 6000);
+    }
+
+    componentDidMount(){
+        this.CarregaUsers();
+    }
+
+    render(){
+        if(this.state.loading){
+            return(
+                <View style={{flex: 1,alignItems: 'center',justifyContent: 'center',}}>
+                    <Animatable.Text 
+                    style={{fontSize: 15}}
+                    animation="pulse"
+                    useNativeDriver
+                    iterationCount={Infinity}
+                    >Carregando usuários...</Animatable.Text>
+                </View>
+            );
+        }
+        else{
+            return(
+                <Animatable.View animation="fadeInUp" style={styles.container}>
+                    <FlatList 
+                        data={RetornaUsers.users}   
+                        renderItem={({item}) => 
+                            <TouchableOpacity style={styles.convesas} onPress={() => { console.log( item._id)}}>
+                                <View style={styles.foto}>
+                                    <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
+                                </View>
+                                <View style={styles.name}>
+                                    <Text style={styles.text}>
+                                        {item.name}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        } 
+                        keyExtractor={(item) => item._id}
+                    />
+                </Animatable.View>
+            );
+        }
+
     }
 }
 
