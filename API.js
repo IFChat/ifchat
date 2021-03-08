@@ -43,11 +43,8 @@ const api = {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .catch(function(error){
             firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(function(user){
-            })
-            .catch(function (error) {
-                var error = error.code;
-                return Object.values(error.val);
+            .catch(async error =>  {
+                return(error);
             })
         })
     },
@@ -55,11 +52,10 @@ const api = {
     onAuthStateChanged: async function(AuthState){
         const user = firebase.auth().onAuthStateChanged;
             if(user){
-                const currUser = firebase.auth().currentUser; //Recebendo usuário atual
+                const currUser = firebase.auth().currentUser; 
                 const newUser = {
                     _id: currUser.uid,
                     email: currUser.email,
-                   // senha: password, *Removido por conta da regra de 'negócio'*
                 }    
                 return(newUser);
             }

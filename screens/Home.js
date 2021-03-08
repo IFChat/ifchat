@@ -15,7 +15,144 @@ import api from '../API';
 import firebase from '../database';
 import * as Animatable from 'react-native-animatable';
 
-const Home = (props) => {
+
+export default class Home extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            loading: true,
+            email: '',
+            password: '',
+        }
+    }
+
+    VerificaUsuario = async () => {
+        var t = false;
+        await firebase.auth().onAuthStateChanged(async function (user, callback) {
+            if(user){
+                const currUser = firebase.auth().currentUser; 
+                const newUser = {
+                    _id: currUser.uid,
+                    email: currUser.email,
+                }   
+                console.log(user);
+                console.log(newUser);
+
+               if (newUser != null){
+                    Actions.Loading({newUser});
+                }
+            }
+            else{
+                parse();
+            }
+        })
+        const parse = () => {
+            this.setState({loading: false});
+        }
+    }
+
+    RetornaFalse= async () => {
+        this.setState({loading: false});
+    }
+
+
+    componentDidMount(){
+        this.VerificaUsuario();
+    }
+
+    render(){
+        if(this.state.loading){
+            return(
+                <View style={styles.container}>
+                    <Animatable.Image
+                    animation="pulse"
+                    useNativeDriver
+                    iterationCount={Infinity} 
+                    source={require('../assets/icon1.png')}
+                    />
+                </View>
+            );
+        }else{
+            var email = this.state.email;
+            var password = this.state.password;
+            async function ChamaTelaChat() {
+                console.log(email);
+                console.log(password);
+                var newUser = {};
+                var n = email.indexOf('@');
+                var dominio = email.substring(email.length, n+1);
+        
+                if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
+                   var error = await api.createUser(email, password);  
+                    await firebase.auth().onAuthStateChanged(async function(user){ 
+                        console.log(user);
+                        if(user){
+        
+                            const currUser = firebase.auth().currentUser; 
+                            newUser = {
+                                _id: currUser.uid,
+                                email: currUser.email,
+                            }   
+        
+                           if (newUser != null){
+                                Actions.Loading({newUser});
+                            }
+                                             
+                        }
+                   
+                    })
+                    
+                 }else{
+                    alert('Email com domínio não autorizado!'); 
+                    //Informando que o domínio utilizado não é válido
+                }
+            };
+
+            return(
+                <View style={styles.container}>
+
+                    <Animatable.View animation="fadeInDown" style={styles.containerlogo}>
+                        <Image 
+                        source={require('../assets/icon1.png')}
+                        />
+                    </Animatable.View>
+            
+                    <View>
+                        <Animatable.View animation="fadeInUp" style={styles.vText}>
+                            <Text style={styles.Text}>Email</Text>
+                        </Animatable.View>
+            
+                        <Animatable.View animation="fadeInUp"
+                        style={styles.vInput}>
+                            <TextInput id='email' placeholder='Digite seu email institucional' 
+                            autocorrect={false} value={this.state.email} onChangeText={text => this.setState({email: text})} style={styles.Input} />
+                        </Animatable.View>
+            
+                        <Animatable.View animation="fadeInUp" style={styles.vText}>
+                            <Text style={styles.Text}>Senha</Text>
+                        </Animatable.View>
+                        
+                        <Animatable.View animation="fadeInUp" style={styles.vInput}>
+                            <TextInput id='password' secureTextEntry={true} placeholder='Digite sua senha institucional' 
+                            autoCorrect={false} value={this.state.password} onChangeText={text => this.setState({password: text})} style={styles.Input} />
+                        </Animatable.View>
+            
+                        <Animatable.View animation="fadeInUp">
+                            <TouchableOpacity onPress={ChamaTelaChat} style={styles.btnSubmit}>
+                                    <Text style={styles.Button}>Entrar</Text>
+                            </TouchableOpacity>
+                        </Animatable.View>
+                    </View>
+        
+        
+                </View>    
+            );
+        }
+    }
+
+}
+
+/*const Home = (props) => {
 
     LogBox.ignoreAllLogs();
     const [email, setEmail] = useState("");
@@ -30,6 +167,7 @@ const Home = (props) => {
         if ((dominio == 'aluno.ifsc.edu.br') || (dominio == 'ifsc.edu.br')){
            var error = await api.createUser(email, password);  
             await firebase.auth().onAuthStateChanged(async function(user){ 
+                console.log(user);
                 if(user){
 
                     const currUser = firebase.auth().currentUser; 
@@ -38,15 +176,15 @@ const Home = (props) => {
                         email: currUser.email,
                     }   
 
-                    if (newUser != null){
+                   if (newUser != null){
                         Actions.Loading({newUser});
                     }
                                      
                 }
-            
+           
             })
             
-       }else{
+         }else{
             alert('Email com domínio não autorizado!'); 
             //Informando que o domínio utilizado não é válido
         }
@@ -94,7 +232,7 @@ return(
 };
 
 
-export default Home;
+export default Home;*/
 
 const styles = StyleSheet.create({
     container: {

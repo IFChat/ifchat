@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     foto:{
         marginLeft:10,
         marginTop: 15,
-        borderColor: '#8dc641',
+        borderColor: '#000',
         borderRadius: 100,
         borderWidth: 1.5,
         marginRight: 25,
