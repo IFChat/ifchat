@@ -61,28 +61,39 @@ const api = {
             }
     },
 
-    retornaUsers: function async (callback) {
-        firebase.database().ref("users").on("value", (snapshot) => {
-            callback(snapshot);
+    updateMessages: async function(callback, idUser, idUserChamado){
+        firebase.database()
+        .ref("messages")
+        .limitToLast(20)
+        .on('child_added', (snapshot) => {
+            setTimeout(() => {
+                const userId = idUser;
+                const userChamadoId = idUserChamado;
+                callback(parse(userId, userChamadoId, snapshot));
+            }, 1000);
         })
-    },  
+    },
 
-    
-
+    createMessage: function async (message){
+        firebase.database().ref("messages").push(message);
+    }
 
 };
 
-function callback(snapshot) {
-    var userEx = snapshot.val();
-
-    var keys = Object.keys(userEx);
-    var val = [];
-    for(var i=0; i<keys.length; i++){
-        var key = keys[i];
-        val[i] = userEx[key];
-    }
+function parse (userId, userChamadoId, snapshot) {
+    var message;
+    const mensagem = snapshot.val();
+    const createdAt = mensagem.createdAt;
+    const text = mensagem.text;
+    const user = mensagem.user;
+    const user2 = mensagem.userRecebe;
     
-    return(val);
+    const { key: _id } = snapshot;
+    if (((user._id == userId) && (user2._id == userChamadoId)) || ((user._id == userChamadoId) && (user2._id == userId))) {
+        message = {_id , createdAt, text, user, user2};
+    }
+    console.log(message);
+    return message;
 };
 
 export default api;

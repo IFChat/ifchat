@@ -62,11 +62,16 @@ export default function App() {
         
         <Scene key="Chat"
               title="Chat"
+              titleStyle={{
+                color: "#FFF",         
+              }}
+              onBack={() => {Chat = null}}
+              navigationBarStyle={{backgroundColor: '#8dc641'}}
               component={Chat}  />
       
 
       </Scene>
-    </Router>
+    </Router> 
   );
 };
 

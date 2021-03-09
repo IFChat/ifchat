@@ -27,7 +27,7 @@ export default class Loading extends Component {
 
 
     CarregaDadosUsuario = async () => {
-        LogBox.ignoreAllLogs();
+        console.disableYellowBox = true;
         const user = this.state.user;
         var userEx;
 

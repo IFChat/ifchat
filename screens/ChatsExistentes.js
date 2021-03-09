@@ -11,7 +11,7 @@ import{
     Animated,
     ActivityIndicator
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions, HeaderModeType } from 'react-native-router-flux';
 import api from '../API';
 import firebase from '../database';
 import RetornaUsers from '../json/RetornaUsers.json';
@@ -28,7 +28,7 @@ export default class ChatsExistentes extends Component {
     }
 
     CarregaUsers =  () => {
-
+        console.disableYellowBox = true;
         firebase.database().ref("users").on('value', (snapshot) => {
             var userEx = snapshot.val();
 
@@ -64,12 +64,17 @@ export default class ChatsExistentes extends Component {
             );
         }
         else{
+            const user = this.state.user;
             return(
                 <Animatable.View animation="fadeInUp" style={styles.container}>
                     <FlatList 
                         data={RetornaUsers.users}   
                         renderItem={({item}) => 
-                            <TouchableOpacity style={styles.convesas} onPress={() => { console.log( item._id)}}>
+                            <TouchableOpacity style={styles.convesas} onPress={() => {
+                                const idUser = user;
+                                var idUserChamado = item;
+                                Actions.Chat({idUser, idUserChamado});
+                            }}>
                                 <View style={styles.foto}>
                                     <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
                                 </View>
@@ -80,7 +85,7 @@ export default class ChatsExistentes extends Component {
                                 </View>
                             </TouchableOpacity>
                         } 
-                        keyExtractor={(item) => item._id}
+                        keyExtractor={(item) => item = [item._id, item.name, item.avatar]}
                     />
                 </Animatable.View>
             );

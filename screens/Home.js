@@ -8,7 +8,7 @@ import {
     Image,
     BackHandler,
     ActivityIndicator,
-    LogBox
+    YellowBox
 } from 'react-native';
 import { Actions } from 'react-native-router-flux'; 
 import api from '../API';
@@ -27,7 +27,7 @@ export default class Home extends Component{
     }
 
     VerificaUsuario = async () => {
-        var t = false;
+        console.disableYellowBox = true;
         await firebase.auth().onAuthStateChanged(async function (user, callback) {
             if(user){
                 const currUser = firebase.auth().currentUser; 
