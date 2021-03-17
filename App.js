@@ -1,3 +1,15 @@
+/*****************************************************************************
+* _title_    = 'App'                                                         *   
+* _author_   = 'Gabriel Bobello'                                             *   
+* _revinfo_  =  ('2021-03-17 08:28', 'Gabriel Bobello')                      *   
+* _status_   = 'revisado'                                                    *   
+* _exename_  = ('IFChat-Application')                                        *                   
+*                                                                            *
+* Copyright ©: IFChat-Application                                            *
+******************************************************************************/
+
+
+
 import React from "react";
 import { color } from "react-native-reanimated";
 import { Actions, Router, Scene } from 'react-native-router-flux'

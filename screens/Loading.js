@@ -1,3 +1,15 @@
+/*****************************************************************************
+* _title_    = 'Loading'                                                     *   
+* _author_   = 'Gabriel Bobello'                                             *   
+* _revinfo_  =  ('2021-03-17 08:33', 'Gabriel Bobello')                      *   
+* _status_   = 'revisado'                                                    *   
+* _exename_  = ('IFChat-Application')                                        *                   
+*                                                                            *
+* Copyright ©: IFChat-Application                                            *
+******************************************************************************/
+
+
+
 import React, { useState, Component } from 'react';
 import { render } from 'react-dom';
 import {
