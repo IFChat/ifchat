@@ -25,17 +25,13 @@ export default class ChatsExistentes extends Component {
             user: props.navigation.state.params.user,
             loading: true,
             mostrausr: false,
+            RetornaConversasExt: [],
+            RetornaUsers: [],
         };
     }
 
-    closeComponent = () => {
-        var container = ReactDOM.findDOMNode(this).parentNode;
-        ReactDOM.unmountComponentAtNode(container);
-    }
-
-
-
     RetornaConversasExistentes = async () => {
+        RetornaConversasExistentes.users = [];
         this.setState({loading: true});
         console.disableYellowBox = true;
         var values = '';
@@ -52,14 +48,14 @@ export default class ChatsExistentes extends Component {
                     var valor = values[key];
                     if(valor.user._id == this.state.user._id){
                         console.log(RetornaConversasExistentes.users);
-                        var found = RetornaConversasExistentes.users.find(element => element._id === valor.userRecebe._id);
+                        var found = RetornaConversasExistentes.users.find((element) => element && element._id === valor.userRecebe._id);
                         if(found == undefined){
                             RetornaConversasExistentes.users[i] = valor.userRecebe;
                         }
                     }
                     else{ 
                         if(valor.userRecebe._id == this.state.user._id){
-                            var found = RetornaConversasExistentes.users.find(element => element._id === valor.user._id);
+                            var found = RetornaConversasExistentes.users.find((element) => element && element._id === valor.user._id);
                             if(found == undefined){
                                 RetornaConversasExistentes.users[i] = valor.user;
                             }
@@ -68,12 +64,16 @@ export default class ChatsExistentes extends Component {
                 }
             }
             setTimeout(() => {
+                const r = RetornaConversasExistentes.users.reverse();
+                RetornaConversasExistentes.users = [];
+                RetornaConversasExistentes.users = r;
                 this.setState ({loading: false});
             }, 3000);
         })
     }
 
     CarregaUsers =  () => {
+        RetornaUsers.users = [];
         this.setState({loading: true});
         console.disableYellowBox = true;
         firebase.database().ref("users").on('value', (snapshot) => {
@@ -112,11 +112,9 @@ export default class ChatsExistentes extends Component {
         else{
             if(this.state.mostrausr){
                 const renderItemUsr = ({item}) => (
-                    <TouchableOpacity style={styles.convesas} onPress={async () => {
+                    <TouchableOpacity style={styles.convesas} onPress={ () => {
                         Actions.Chat({idUser: user, idUserChamado: item});
-                        RetornaUsers.users = [];
-                        RetornaConversasExistentes.users = [];
-                        this.closeComponent();
+                        //this.closeComponent();
                     }}>
                         <View style={styles.foto}>
                             <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
@@ -133,19 +131,14 @@ export default class ChatsExistentes extends Component {
                     <View style={styles.container}>
                         <Animatable.View animation="fadeInUp" style={styles.container}>
                             <FlatList 
-                                data={RetornaUsers.users}
+                                data={RetornaUsers.users.filter(x => x)}
                                 keyExtractor={(index) => index}   
                                 renderItem={renderItemUsr} 
                             />
                         </Animatable.View>
                                 <TouchableOpacity style={styles.botao} onPress={() => {
-                                    RetornaUsers.users = [];
-                                    RetornaConversasExistentes.users = [];
                                     this.RetornaConversasExistentes();
-                                    if(this.state.mostrausr){
-                                        this.setState ({mostrausr:false});
-                                    }
-                                    else{this.setState ({mostrausr:true});}
+                                    this.setState({mostrausr: !this.state.mostrausr});
                                 }}>
                                     <Image source={require('../img/msg.png')}></Image>
                                 </TouchableOpacity>
@@ -155,11 +148,8 @@ export default class ChatsExistentes extends Component {
             else{
                 const user = this.state.user;
                 const renderItem = ({item}) => (
-                    <TouchableOpacity style={styles.convesas} onPress={async () => {
+                    <TouchableOpacity style={styles.convesas} onPress={() => {
                         Actions.Chat({idUser: user, idUserChamado: item});
-                        RetornaUsers.users = [];
-                        RetornaConversasExistentes.users = [];
-                        this.closeComponent();
                     }}>
                         <View style={styles.foto}>
                             <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
@@ -175,7 +165,7 @@ export default class ChatsExistentes extends Component {
                     <View style={styles.container}>
                         <Animatable.View animation="fadeInUp" style={styles.container}>
                             <FlatList 
-                                data={RetornaConversasExistentes.users}
+                                data={RetornaConversasExistentes.users.filter(x => x)}
                                 keyExtractor={(item) => item}   
                                 renderItem={renderItem} 
                             />
@@ -183,13 +173,8 @@ export default class ChatsExistentes extends Component {
 
                             <TouchableOpacity style={styles.botao}
                             onPress={() => {
-                                RetornaUsers.users = [];
-                                RetornaConversasExistentes.users = [];
                                 this.CarregaUsers();
-                                if(this.state.mostrausr){
-                                    this.setState ({mostrausr:false});
-                                }
-                                else{this.setState ({mostrausr:true});}
+                                this.setState({mostrausr: !this.state.mostrausr});
                             }}>
                                 <Image source={require('../img/msg.png')}></Image>
                             </TouchableOpacity>
