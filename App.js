@@ -4,7 +4,6 @@ import { Actions, Router, Scene } from 'react-native-router-flux'
 import Chat from "./screens/Chat";
 import Home from "./screens/Home";
 import ChatsExistentes from "./screens/ChatsExistentes";
-import Pesquisa from "./screens/Pesquisa";
 import Usuario from "./screens/Usuario";
 import Loading from "./screens/Loading";
 import 
@@ -43,31 +42,31 @@ export default function App() {
               titleStyle={{
                 color: "#FFF",         
               }}
-              onRight={() => Actions.pesquisa()} 
+              onRight={null} 
               onBack={()=>{null}} 
               onLeft={() => {null}}
-              hideBackImage={false}
+              hideBackImage={true}
               backToInitial={false}
               rightButtonStyle={{
                 heigth: 10,
                 width: 45,
               }}
-              rightButtonImage={require('./img/lupa.png')}
+              leftButtonStyle={{
+                heigth: 0,
+                width: 0,
+              }}
+              rightButtonImage={require('./img/msg.png')}
+              leftButtonImage={require('./assets/verde.png')}
               navigationBarStyle={{backgroundColor: '#8dc641'}} />
 
-        <Scene key="Pesquisa"
-              title="Pesquisa"
-              component={Pesquisa}
-        />
-        
         <Scene key="Chat"
               title="Chat"
               titleStyle={{
                 color: "#FFF",         
               }}
-              onBack={() => {Chat = null}}
               navigationBarStyle={{backgroundColor: '#8dc641'}}
-              component={Chat}  />
+              component={Chat}
+              />
       
 
       </Scene>

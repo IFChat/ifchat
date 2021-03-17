@@ -9,33 +9,28 @@ import {
 import { GiftedChat } from 'react-native-gifted-chat';
 import api from '../API';
 
-const Chat = props => {
+const Chat = (props) => {
 
-    const user = props.navigation.state.params.idUser;
-    const userChamado = props.navigation.state.params.idUserChamado;
+    var user = props.navigation.state.params.idUser;
+    var userChamado = props.navigation.state.params.idUserChamado;
 
     const [messages, setMessages] = useState([]);
 
-
-
     useEffect(() => {
-        const idUser = user._id;
-        const idUserChamado = userChamado._id;
         console.disableYellowBox = true;
 
         api.updateMessages((msg) => {
             setMessages((prevMsgs) => GiftedChat.append(prevMsgs, msg));
-        }, idUser, idUserChamado);
-
+        }, user, userChamado);
     }, []);
 
-    function onSendMessage(msgs){
+    async function onSendMessage(msgs){
         msgs.forEach(msgs => {
             msgs.createdAt = new Date().getTime();
             msgs.userRecebe = userChamado;
+            console.log(msgs);
             api.createMessage(msgs);
         })
-        console.log(msgs);
     }
 
     function onLongPress(){

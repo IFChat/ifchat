@@ -25,36 +25,27 @@ export default class Loading extends Component {
         }
     }
 
+    closeComponent = () => {
+        var container = ReactDOM.findDOMNode(this).parentNode;
+        ReactDOM.unmountComponentAtNode(container);
+    }
 
     CarregaDadosUsuario = async () => {
         console.disableYellowBox = true;
         const user = this.state.user;
         var userEx;
 
-        let currUserExists = await api.findUserByUId(user._id);
-
-        var val = [];
-
-        await firebase.database().ref("users").on('value', async function (snapshot) {
-            userEx = snapshot.val();
-
-            var keys = Object.keys(userEx);
-        
-            for(var i=0; i<keys.length; i++){
-                var key = await keys[i];
-                val[i] = await userEx[key]
-            }
-        });    
+        let currUserExists = await api.findUserByUId(user._id);  
 
         if (currUserExists == null){
             this.state={loading: false};
-            var userEx = await val; 
-            await Actions.Usuario({user, userEx: val});
+            await Actions.Usuario({user});
+            //this.closeComponent();
         }
         else {
             this.state={loading: false};
-            var userEx = await val;
-            await Actions.ChatsExistentes({user:currUserExists, userEx: val});
+            await Actions.ChatsExistentes({user:currUserExists});
+            //this.closeComponent();
         }   
     }
 

@@ -23,14 +23,6 @@ const api = {
         .then(function(user){
         })
     },
-    
-    currentUser: async function(user){
-        return(firebase.auth().currentUser);
-    },
-
-    authstate: async function(user){
-       return (firebase.auth().onAuthStateChanged);
-    },
 
     loginUser: async function (email, password){
                 firebase.auth().signInWithEmailAndPassword(email, password)
@@ -61,37 +53,37 @@ const api = {
             }
     },
 
-    updateMessages: async function(callback, idUser, idUserChamado){
+    updateMessages: async function(callback, user, userChamado){
         firebase.database()
         .ref("messages")
-        .limitToLast(20)
         .on('child_added', (snapshot) => {
-            setTimeout(() => {
-                const userId = idUser;
-                const userChamadoId = idUserChamado;
-                callback(parse(userId, userChamadoId, snapshot));
-            }, 1000);
+            callback(parse(user, userChamado, snapshot));
         })
     },
 
     createMessage: function async (message){
         firebase.database().ref("messages").push(message);
-    }
+        console.log("Chegou aqui!");
+    },
 
 };
 
-function parse (userId, userChamadoId, snapshot) {
+function parse (userId, userChamado, snapshot) {
     var message;
-    const mensagem = snapshot.val();
-    const createdAt = mensagem.createdAt;
-    const text = mensagem.text;
-    const user = mensagem.user;
-    const user2 = mensagem.userRecebe;
-    
+    const {createdAt, text, user, userRecebe} = snapshot.val();
     const { key: _id } = snapshot;
-    if (((user._id == userId) && (user2._id == userChamadoId)) || ((user._id == userChamadoId) && (user2._id == userId))) {
-        message = {_id , createdAt, text, user, user2};
+    if ((user._id == userId._id) && (userRecebe._id == userChamado._id)){
+        message = {_id , createdAt, text, user};
     }
+    else if ((user._id == userChamado._id) && (userRecebe._id == userId._id)){
+        message = {_id , text, createdAt , user}; 
+    }
+    else{
+        message = {};
+    }
+
+
+
     console.log(message);
     return message;
 };

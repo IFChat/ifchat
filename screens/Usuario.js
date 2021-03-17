@@ -14,6 +14,12 @@ import { Actions } from 'react-native-router-flux';
 import api from '../API';
 
 const Usuario = (props) => {
+
+    function closeComponent() {
+        var container = ReactDOM.findDOMNode(this).parentNode;
+        ReactDOM.unmountComponentAtNode(container);
+    }
+
     LogBox.ignoreAllLogs();
     const user = props.navigation.state.params.user;
     const [selectedValue, setSelectedValue] = useState("https://i.imgur.com/nPoMImB.png");
@@ -30,6 +36,7 @@ const Usuario = (props) => {
         if(currUserExists == null){
            await api.createUserinDatabase(extUser); 
            Actions.ChatsExistentes({user:extUser});
+           closeComponent();
         }
         else{
             alert('Seu usuário não foi criado!');

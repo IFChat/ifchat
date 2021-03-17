@@ -26,6 +26,11 @@ export default class Home extends Component{
         }
     }
 
+    closeComponent = () => {
+        var container = ReactDOM.findDOMNode(this).parentNode;
+        ReactDOM.unmountComponentAtNode(container);
+    }
+
     VerificaUsuario = async () => {
         console.disableYellowBox = true;
         await firebase.auth().onAuthStateChanged(async function (user, callback) {
@@ -35,11 +40,10 @@ export default class Home extends Component{
                     _id: currUser.uid,
                     email: currUser.email,
                 }   
-                console.log(user);
-                console.log(newUser);
 
                if (newUser != null){
                     Actions.Loading({newUser});
+                    this.closeComponent();                    
                 }
             }
             else{

@@ -14,6 +14,7 @@ import{
 import { Actions, HeaderModeType } from 'react-native-router-flux';
 import api from '../API';
 import firebase from '../database';
+import RetornaConversasExistentes from '../json/RetornaConversasExistentes.json';
 import RetornaUsers from '../json/RetornaUsers.json';
 import * as Animatable from 'react-native-animatable';
 export default class ChatsExistentes extends Component {
@@ -22,12 +23,58 @@ export default class ChatsExistentes extends Component {
         super(props);
         this.state = {
             user: props.navigation.state.params.user,
-            userEx: props.navigation.state.params.userEx,
             loading: true,
+            mostrausr: false,
         };
     }
 
+    closeComponent = () => {
+        var container = ReactDOM.findDOMNode(this).parentNode;
+        ReactDOM.unmountComponentAtNode(container);
+    }
+
+
+
+    RetornaConversasExistentes = async () => {
+        this.setState({loading: true});
+        console.disableYellowBox = true;
+        var values = '';
+        console.log('Passou aqui 0');
+        firebase.database().ref("messages").on('value', (snapshot) => {
+            values = snapshot.val();
+            console.log('Passou aqui 1.0');
+            console.log(values);
+            if (values != null){
+                var keys = Object.keys(values);
+                console.log('Passou aqui 1.1');
+                for(var i=0; i<keys.length; i++){
+                    var key = keys[i];
+                    var valor = values[key];
+                    if(valor.user._id == this.state.user._id){
+                        console.log(RetornaConversasExistentes.users);
+                        var found = RetornaConversasExistentes.users.find(element => element._id === valor.userRecebe._id);
+                        if(found == undefined){
+                            RetornaConversasExistentes.users[i] = valor.userRecebe;
+                        }
+                    }
+                    else{ 
+                        if(valor.userRecebe._id == this.state.user._id){
+                            var found = RetornaConversasExistentes.users.find(element => element._id === valor.user._id);
+                            if(found == undefined){
+                                RetornaConversasExistentes.users[i] = valor.user;
+                            }
+                        }
+                    }
+                }
+            }
+            setTimeout(() => {
+                this.setState ({loading: false});
+            }, 3000);
+        })
+    }
+
     CarregaUsers =  () => {
+        this.setState({loading: true});
         console.disableYellowBox = true;
         firebase.database().ref("users").on('value', (snapshot) => {
             var userEx = snapshot.val();
@@ -39,15 +86,14 @@ export default class ChatsExistentes extends Component {
                 RetornaUsers.users[i] = userEx[key];
             }
 
-        })
-
+        });
         setTimeout(() => {
             this.setState ({loading: false});
-        }, 6000);
+        }, 3000); 
     }
 
     componentDidMount(){
-        this.CarregaUsers();
+        this.RetornaConversasExistentes();
     }
 
     render(){
@@ -59,36 +105,98 @@ export default class ChatsExistentes extends Component {
                     animation="pulse"
                     useNativeDriver
                     iterationCount={Infinity}
-                    >Carregando usuários...</Animatable.Text>
+                    >Carregando...</Animatable.Text>
                 </View>
             );
         }
         else{
-            const user = this.state.user;
-            return(
-                <Animatable.View animation="fadeInUp" style={styles.container}>
-                    <FlatList 
-                        data={RetornaUsers.users}   
-                        renderItem={({item}) => 
-                            <TouchableOpacity style={styles.convesas} onPress={() => {
-                                const idUser = user;
-                                var idUserChamado = item;
-                                Actions.Chat({idUser, idUserChamado});
+            if(this.state.mostrausr){
+                const renderItemUsr = ({item}) => (
+                    <TouchableOpacity style={styles.convesas} onPress={async () => {
+                        Actions.Chat({idUser: user, idUserChamado: item});
+                        RetornaUsers.users = [];
+                        RetornaConversasExistentes.users = [];
+                        this.closeComponent();
+                    }}>
+                        <View style={styles.foto}>
+                            <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
+                        </View>
+                        <View style={styles.name}>
+                            <Text style={styles.text}>
+                                {item.name}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                );
+                const user = this.state.user;
+                return(
+                    <View style={styles.container}>
+                        <Animatable.View animation="fadeInUp" style={styles.container}>
+                            <FlatList 
+                                data={RetornaUsers.users}
+                                keyExtractor={(index) => index}   
+                                renderItem={renderItemUsr} 
+                            />
+                        </Animatable.View>
+                                <TouchableOpacity style={styles.botao} onPress={() => {
+                                    RetornaUsers.users = [];
+                                    RetornaConversasExistentes.users = [];
+                                    this.RetornaConversasExistentes();
+                                    if(this.state.mostrausr){
+                                        this.setState ({mostrausr:false});
+                                    }
+                                    else{this.setState ({mostrausr:true});}
+                                }}>
+                                    <Image source={require('../img/msg.png')}></Image>
+                                </TouchableOpacity>
+                        </View>
+                );
+            }
+            else{
+                const user = this.state.user;
+                const renderItem = ({item}) => (
+                    <TouchableOpacity style={styles.convesas} onPress={async () => {
+                        Actions.Chat({idUser: user, idUserChamado: item});
+                        RetornaUsers.users = [];
+                        RetornaConversasExistentes.users = [];
+                        this.closeComponent();
+                    }}>
+                        <View style={styles.foto}>
+                            <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
+                        </View>
+                        <View style={styles.name}>
+                            <Text style={styles.text}>
+                                {item.name}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                );
+                return(
+                    <View style={styles.container}>
+                        <Animatable.View animation="fadeInUp" style={styles.container}>
+                            <FlatList 
+                                data={RetornaConversasExistentes.users}
+                                keyExtractor={(item) => item}   
+                                renderItem={renderItem} 
+                            />
+                        </Animatable.View>
+
+                            <TouchableOpacity style={styles.botao}
+                            onPress={() => {
+                                RetornaUsers.users = [];
+                                RetornaConversasExistentes.users = [];
+                                this.CarregaUsers();
+                                if(this.state.mostrausr){
+                                    this.setState ({mostrausr:false});
+                                }
+                                else{this.setState ({mostrausr:true});}
                             }}>
-                                <View style={styles.foto}>
-                                    <Image source={{ uri: item.avatar }}  style={styles.fotinho}/>
-                                </View>
-                                <View style={styles.name}>
-                                    <Text style={styles.text}>
-                                        {item.name}
-                                    </Text>
-                                </View>
+                                <Image source={require('../img/msg.png')}></Image>
                             </TouchableOpacity>
-                        } 
-                        keyExtractor={(item) => item = [item._id, item.name, item.avatar]}
-                    />
-                </Animatable.View>
-            );
+                    </View>
+
+                );
+            }
         }
 
     }
@@ -136,6 +244,17 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         marginLeft:200,
 
+    },
+    botao: {
+        justifyContent: 'center',
+        backgroundColor: '#8dc641',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        marginLeft: 300,
+        marginBottom: 10,
+        borderRadius: 100,
+        width: 50,
+        height:50,
     }
 });
 
