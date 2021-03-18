@@ -32,7 +32,9 @@ const Chat = (props) => {
         console.disableYellowBox = true;
 
         api.updateMessages((msg) => {
-            setMessages((prevMsgs) => GiftedChat.append(prevMsgs, msg));
+            if (msg != null){
+                setMessages((prevMsgs) => GiftedChat.append(prevMsgs, msg));
+            }
         }, user, userChamado);
     }, []);
 

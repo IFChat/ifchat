@@ -75,7 +75,6 @@ const api = {
 
     createMessage: function async (message){
         firebase.database().ref("messages").push(message);
-        console.log("Chegou aqui!");
     },
 
 };
@@ -90,13 +89,11 @@ function parse (userId, userChamado, snapshot) {
     else if ((user._id == userChamado._id) && (userRecebe._id == userId._id)){
         message = {_id , text, createdAt , user}; 
     }
+
     else{
-        message = {};
+        message = null;
     }
 
-
-
-    console.log(message);
     return message;
 };
 
