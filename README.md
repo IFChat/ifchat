@@ -1,4 +1,4 @@
-![alt text](assets/Gif/Gif_IFChat.GIF)
+![alt text](assets/Gif/Gif_IFChat.gif)
 
 <h1 align="center">
   <span style="color:#848585"><strong>IFChat - Application</strong></span>
