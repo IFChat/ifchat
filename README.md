@@ -1,8 +1,20 @@
-# IFCHAT-Application 
+![alt text](assets/Gif/Gif_IFChat.GIF)
 
+<h1 align="center">
+  <span style="color:#848585"><strong>IFChat - Application</strong></span>
+</h1>
 
-## Descrição
-  O software IFChat-Application visa inserir um novo meio de comunicação institucional para os alunos do Instituto Federal, a aplicação se encontra em desenvolvimento.
+<p align="center">
+    <img alt="Languages" src="https://img.shields.io/github/languages/top/IFChat/ifchat?color=%238dc641">
+    <img alt="Último Commit" src="https://img.shields.io/github/last-commit/IFChat/ifchat?color=8dc641">
+    <img alt="Contribuidores" src="https://img.shields.io/github/contributors/IFChat/ifchat?color=8dc641">
+</p>
+
+---
+
+<h2 align="center"><span style="color:#848585"><strong>Descrição</strong></span></h2>
+
+O software IFChat-Application visa inserir um novo meio de comunicação institucional para os alunos do Instituto Federal, a aplicação se encontra em desenvolvimento.
 Está-se utilizando da linguagem de programação Java Script ([React Native](https://reactnative.dev/)) e o banco de dados não relacional [Firebase](https://firebase.google.com/?hl=pt-br), para fazer o login do usuário no sistema estamos utilizando da biblioteca [Firebase Authentication](https://firebase.google.com/docs/auth) e, para guardar as informações de mensagens estamos utilizando o [Firebase Realtime Database](https://firebase.google.com/docs/database).
 
 Para o desenvolvimento deste projeto estamos utilizando as bibliotecas a seguir:
@@ -12,9 +24,10 @@ Para o desenvolvimento deste projeto estamos utilizando as bibliotecas a seguir:
 - [React Native Animatable](https://github.com/oblador/react-native-animatable)
 - [Firebase](https://firebase.google.com/?hl=pt-br)
 
-
-### Integrantes do Grupo
+---
+<h3><span style="color:#848585"><strong>Integrantes do Grupo</strong></span></h3>
 - [Gabriel Bobello](https://github.com/GBobello)
 
-### Orientador
+---
+<h3><span style="color:#848585"><strong>Integrantes do Grupo</strong></span></h3>
 - [Romulo Beninca](https://github.com/rbeninca)
