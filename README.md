@@ -29,5 +29,5 @@ Para o desenvolvimento deste projeto estamos utilizando as bibliotecas a seguir:
 - [Gabriel Bobello](https://github.com/GBobello)
 
 ---
-<h3><span style="color:#848585"><strong>Integrantes do Grupo</strong></span></h3>
+<h3><span style="color:#848585"><strong>Orientador</strong></span></h3>
 - [Romulo Beninca](https://github.com/rbeninca)
